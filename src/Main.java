@@ -1,15 +1,52 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+class CargoSafetyException extends RuntimeException {
+    public CargoSafetyException(String message) {
+        super(message);
+    }
+}
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+class GoodsBogie {
+    private String shape;
+    private String cargo;
+
+    public GoodsBogie(String shape) {
+        this.shape = shape;
+    }
+
+    public void assignCargo(String cargo) {
+        try {
+
+            if (shape.equalsIgnoreCase("Rectangular") && cargo.equalsIgnoreCase("Petroleum")) {
+                throw new CargoSafetyException("Unsafe Assignment: Petroleum cannot be assigned to a Rectangular bogie!");
+            }
+            this.cargo = cargo;
+            System.out.println("Cargo '" + cargo + "' successfully assigned to " + shape + " bogie.");
+        } catch (CargoSafetyException e) {
+
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+
+            System.out.println("Validation completed for cargo assignment on " + shape + " bogie.");
         }
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+}
+
+
+public class TrainConsistManagementApp {
+    public static void main(String[] args) {
+
+        GoodsBogie cylindricalBogie = new GoodsBogie("Cylindrical");
+        cylindricalBogie.assignCargo("Petroleum");
+
+
+        GoodsBogie rectangularBogie = new GoodsBogie("Rectangular");
+        rectangularBogie.assignCargo("Petroleum");
+
+
+        GoodsBogie squareBogie = new GoodsBogie("Square");
+        squareBogie.assignCargo("Coal");
     }
 }
